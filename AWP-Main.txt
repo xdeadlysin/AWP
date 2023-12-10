@@ -1,0 +1,284 @@
+
+1.
+    
+
+2.
+
+3.
+
+4.
+
+5.
+
+6.
+    A. Multiline Textbox and Querying. SqlDataReader
+        WebForm -> 2 Text Box, Button, SqlDataSource
+            2nd TextBox Property "TextMode" = MultiLine
+        Create Local Database, Add table, add Data
+        .cs file
+            using System.Data.SqlClient
+            in Class
+                SqlConnection cn = new SqlConnection();
+                SqlCommand cmd = new SqlCommand();
+                SqlDataReader dr;
+            in pageload
+                cn.ConnectionString = @"";
+            in Button function
+                 cn.Open();
+                cmd.Connection = cn;
+                cmd.CommandText = TextBox1.Text;
+                dr = cmd.ExecuteReader();
+                while (dr.Read())
+                    TextBox2.Text = TextBox2.Text + "\n Roll No: " + dr[0] + "\n Name: " + dr[1] + "\n Address: " + dr[2];
+                cmd.Dispose();
+                cn.Close();
+    
+    B. display records by using database.
+        WebForm -> TextBox,Button,Label,SqlDataSource
+        Create Local Database, Add table, add Database, Add Data in table
+        .cs file
+            using System.Data.SqlClient
+            in Class
+                SqlConnection cn = new SqlConnection();
+                SqlCommand cmd = new SqlCommand();
+                SqlDataReader dr;
+            in pageload
+                cn.ConnectionString = @"";
+            in Button function
+                cn.Open();
+                cmd.Connection = cn;
+                cmd.CommandText = "Select * from student where sid = " + TextBox1.Text;
+                dr = cmd.ExecuteReader();
+                while (dr.Read())
+                    Label1.Text = Label1.Text + "<br> Roll No: " + dr[0] + "<br> Name: " + dr[1] + "<br> Address: " + dr[2];
+                cmd.Dispose();
+                cn.Close();
+
+    C. use of Datalist link control
+        Create Database, Add Table , Add Data
+        WebForm ->
+            Add SqlDataSource > Config Data Source > Dropdown Database > Next > Select Table , * > Test Query > Finish
+            Add DataList > Choose Format > Choose Data Source > 
+
+7. 
+    A. Databinding using dropdownlist control. Steps Only No Code
+        WebForm -> DropDownList,GridView,SqlDataSoure
+            SqlDataSource1(DropDownList) > Config Data Source >  Select table, * > Test > Finish
+            DropDownList > Choose Data Source > Select SqlDataSource1, Sid, Sid > turn AutoPostBack = On
+            SqlDataSource2(GridView) > Config Data Source > Select Table, * , Where, sid, =, control, DropDownList1, > Add > "SELECT * FROM [student] WHERE ([sid] = @sid2)" > Test > Finish
+            GridView > Autoformat, Choose Data Source > SqlDataSource2
+
+    B. Retrieving name of student from rollno. ExecuteScalar()
+        WebForm > TextBox,Button,Label,SqlDataSource
+        .cs
+            using System.Data.SqlClient
+        Class
+            SqlConnection conn = new SqlConnection();
+            SqlCommand cmd = new SqlCommand();
+        pageload
+            conn.ConnectionString = @"";
+        button1
+            conn.Open();
+            cmd.Connection = conn;
+            cmd.CommandText = "select name from student where sid = " + TextBox1.Text;
+            Label1.Text = cmd.ExecuteScalar().ToString();
+            cmd.Dispose();
+            conn.Close();
+    
+    C. inserting and deleting , updating record from a database. ExecuteNonQuery()
+        WebForm > 4 TextBox,3 Button,Label,SqlDataSource , Rollno name address age 
+        .cs
+            using System.Data.SqlClient
+        Class
+            SqlConnection cn = new SqlConnection();
+            SqlCommand cm = new SqlCommand();
+        pageload
+            cn.ConnectionString = @"";
+        Insert
+            cn.Open();
+            cm.Connection = cn;
+            cm.CommandText = "insert into student values (" + TextBox1.Text + ",'" + TextBox2.Text + "','" + TextBox3.Text + "'," + TextBox4.Text + ")";
+            cm.ExecuteNonQuery();
+            cm.Dispose();
+            cn.Close();
+            Label1.Text = "Inserted Data Successfully";
+        Update
+            cn.Open();
+            cm.Connection = cn;
+            cm.CommandText = "update student set address= '" + TextBox3.Text + "'where rollno = " + TextBox1.Text;
+            cm.ExecuteNonQuery();
+            cm.Dispose();
+            cn.Close();
+            Label1.Text = "Updated Data Successfully";
+        Delete
+            cn.Open();
+            cm.Connection = cn;
+            cm.CommandText = "delete from student where rollno= " + TextBox1.Text;
+            cm.ExecuteNonQuery();
+            cm.Dispose();
+            cn.Close();
+            Label1.Text = "Updated Data Successfully";
+
+8.
+    A. uses and properties of SqlDataSource
+        WebForm > 4 TextBox,4 Button,Label,SqlDataSource,GridView > Rollno Name Address Age
+        .cs
+            using System.Data.SqlClient
+        Class
+            SqlDataSource s=new SqlDataSource();
+        pageload
+            s.ConnectionString = @"";
+        Insert
+            SqlParameter p1 = new SqlParameter();
+            SqlParameter p2 = new SqlParameter();
+            SqlParameter p3=new SqlParameter();
+            SqlParameter p4= new SqlParameter();
+            s.InsertParameters.Add("p1", DbType.Int16, TextBox1.Text);
+            s.InsertParameters.Add("p2",DbType.String,TextBox2.Text);
+            s.InsertParameters.Add("p3",DbType.String,TextBox3.Text);
+            s.InsertParameters.Add("p4",DbType.Int16, TextBox4.Text);
+            s.InsertCommand = "insert into student values(@p1,@p2,@p3,@p4)";
+            s.Insert();
+            Label1.Text="data Inserted";
+            s.SelectCommand = "select * from student";
+            GridView1.DataSource = s;
+            GridView1.DataBind();
+        Update
+            SqlParameter p1 = new SqlParameter();
+            SqlParameter p2 = new SqlParameter();
+            s.UpdateParameters.Add("p1", DbType.Int16, TextBox1.Text);
+            s.UpdateParameters.Add("p2", DbType.String, TextBox3.Text);
+            s.UpdateCommand = "update student set address=@p2 where
+            rollno=@p1";
+            s.Update();
+            Label1.Text = "data Updated";
+            s.SelectCommand = "select * from student";
+            GridView1.DataSource = s;
+            GridView1.DataBind();
+        Delete
+            SqlParameter p1 = new SqlParameter();
+            s.DeleteParameters.Add("p1", DbType.Int16, TextBox1.Text);
+            s.DeleteCommand = "delete from student where rollno=@p1";
+            s.Delete();
+            Label1.Text = "data Deleted";
+            s.SelectCommand = "select * from student";
+            GridView1.DataSource = s;
+            GridView1.DataBind();
+        Retrive
+            s.SelectCommand = "select * from student";
+            GridView1.DataSource = s;
+            GridView1.DataBind();
+    
+    B. data binding using DetailsView and FormView Control
+        WebForm >  
+            SqlDataSource > Config Data Source >  Select table, * > Test > Finish
+            DetailView >  Choose Data Source -> SqlDataSource1 -> Click on enable paging.
+            FormView >  Choose Data Source -> SqlDataSource1 -> Click on enable paging.
+    
+    C. display Using Disconnected Data Access and Databinding using GridView
+        WebForm > 2 Gridview,2 Button,2 SqlDataSource
+        .cs 
+            using System.Data.SqlClient;
+            using System.Data;
+        Class
+            SqlConnection c=new SqlConnection();
+            SqlCommand cmd= new SqlCommand();
+            SqlDataReader dr;
+        pageload 
+            c.ConnectionString = @"";
+        Disconnected
+            c.Open();
+            SqlDataAdapter da=new SqlDataAdapter("select * from student",c);
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            GridView3.DataSource = ds;
+            GridView3.DataBind();
+            c.Close();
+        Connected
+            c.Open();
+            cmd.Connection = c;
+            cmd.CommandText = "select*from student";
+            dr = cmd.ExecuteReader();
+            DataTable dt = new DataTable();
+            dt.Load(dr);
+            GridView4.DataSource=dt;
+            GridView4.DataBind();
+            c.Close();
+
+9.
+    A. GridView control template and GridView hyperlink
+        2 WebForm > GridView,SqlDataSource
+        page.aspx
+            GridView > add Data Source > Edit Columns > Remove Exisitng fields > Add hyperlinkField > 
+                > Set HeaderText=id, DataNavigateURLFields=id, DataNavigateURLFormatString=~/welcome.aspx?id={0},DataTextField=id
+            SqlDataSource > Config Data Source > Select id > next > test > Finish
+        welcome.aspx
+            GridView > Add Data Source 
+            SqlDataSource > Config Data Source > Select * , WHERE, sid, =, QueryString, id, > Add > Next > Test > Finish
+    
+    B. GridView button column and GridView events
+        WebForm > GridView, SqlDataSource,Label
+            SqlDataSource > Config Data Source > Select Table, * > Test > Finish
+            GridView > Add Data Source > edit columns > Add Button fields >Set Property: CommandName,
+        .cs
+        GridView1_RowCommand(object sender,GridViewCommandEventArgs e)
+            if(e.CommandName == "b")
+                GridView1.Rows[Convert.ToInt16(e.CommandArgument)].BackColor=System.Drawing.Color.Yellow;
+                int index = int.Parse(e.CommandArgument.ToString());
+                GridViewRow rw = GridView1.Rows[index];
+                string name = rw.Cells[1].Text;
+                Label1.Text = "Selected student name is: " + name;
+                Label1.Font.Size = 30;
+                Label1.ForeColor = System.Drawing.Color.Red;
+    
+    C. GridView paging and Creating own table format using GridView
+        
+
+10.
+    A.  Create ASP.Net WebForm add blank XML file
+        create webform with write and read button
+        
+        XmlWriterSettings s = new XmlWriterSettings();
+        s.Indent = true;
+        XmlWriter xm = XmlWriter.Create(@"C:\Users\bhavesh\source\repos\Xml-R-W\XMLFile1.xml", s);
+        xm.WriteStartDocument();
+        xm.WriteStartElement("College");
+        xm.WriteString("1");
+        xm.WriteEndElement();
+        xm.WriteEndDocument();
+        xm.Close();
+
+        XmlReader we = XmlReader.Create(@"C:\Users\bhavesh\source\repos\Xml-R-W\XMLFile1.xml");
+        while (we.Read())
+        if(we.NodeType.Equals(XmlNodeType.Text))
+            Label1.Text = Label1.Text + "<br>" + " " + we.Value;
+        we.Close();
+    
+    C.1 AJAX Control
+    WebForm ->
+        add ScriptManager
+        add UpdatePanel
+            Add Button and Label Inside
+        add UpdateProgress
+    aspx.cs 
+        pageload
+            System.Threading.Thread.Sleep(3000);
+        button
+            Label1.Text = DateTime.Now.ToLongTimeString();
+    
+    C.2 AJAX HtmlEditorExtender Text
+    webform ->
+        add TextBox, ScriptManager, Button, Label
+    Go to Soln > Right Click > Manage NuGet Packages > Browse > AJAXControlToolKit
+    Right Click on TextBox > Add Extender > HtmlEditorExtender
+    aspx file add EnableSanitization="false" under  <ajaxToolkit:HtmlEditorExtender
+    Button .cs function
+        Label.Text = TextBox.Text
+
+11. Use DLL Library
+    create Project ASP.NET WebForm
+    add Project Class Library .NET
+    write logic for function
+    add references to .DLL
+    write logic for WebForm
+    import using dllnamespace
