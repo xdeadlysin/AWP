@@ -1,14 +1,42 @@
 
 1.
+    A.  four int values from the user and displays the product
+    B. string operations.
+    C. (Student Id, Student Name, Course Name, Date of Birth) information from a set of students. The application should also display the information of all the students once the data entered
+    D.
+        i. Generate Fibonacci series. 
+        ii. Test for prime numbers. 
+        iii. Test for vowels.  
+        iv. Use of foreach loop with arrays 
+        v. Reverse a number and find sum of digits of a number.
     
-
 2.
+    A. OOPs 
+        factorial Value, 
+        Money Conversion, 
+        Temperature Conversion
+    B. OOPs Further
+        i. Function Overloading 
+        ii. Inheritance (all types) 
+        iii. Constructor overloading 
+        iv. Interfaces
+    C. Using Delegates and events
+    D. Exception handling
 
 3.
+    A. sever controls to demonstrate setting and use of their properties
+    B. Calendar control
+    C. use of Treeview control perform following operations
 
 4.
+    A. Registration form to demonstrate use of various Validation controls
+    B. Web Form to demonstrate use of Adrotator Control
+    C. Web Form to demonstrate use User Controls
 
 5.
+    A. Website Navigation controls and Site Map
+    B. Master Page with applying Styles and Themes for page beautification.
+    C. Various states of ASP.NET Pages
 
 6.
     A. Multiline Textbox and Querying. SqlDataReader
@@ -232,48 +260,58 @@
                 Label1.ForeColor = System.Drawing.Color.Red;
     
     C. GridView paging and Creating own table format using GridView
-        
+        webform > 
+            SqlDataSource > Config Data Source > Select table, * > Test > Finish
+            GridView > Enable paging-> chooseSqlDataSource-> Edit the page size from proerties set it as 1.
+            DropDownList > select rollno as a DataField To be displayed & DataField for the value of DropDownList
+        .cs
+            GridView1_PageIndexChanging()
+                GridView1.PageIndex=e.newPageIndex;
+            DropDownList1_SelectedIndexChanged()
+                GridView1.PageIndex=DropDownList1.SelectedIndex;
 
 10.
     A.  Create ASP.Net WebForm add blank XML file
         create webform with write and read button
-        
-        XmlWriterSettings s = new XmlWriterSettings();
-        s.Indent = true;
-        XmlWriter xm = XmlWriter.Create(@"C:\Users\bhavesh\source\repos\Xml-R-W\XMLFile1.xml", s);
-        xm.WriteStartDocument();
-        xm.WriteStartElement("College");
-        xm.WriteString("1");
-        xm.WriteEndElement();
-        xm.WriteEndDocument();
-        xm.Close();
-
-        XmlReader we = XmlReader.Create(@"C:\Users\bhavesh\source\repos\Xml-R-W\XMLFile1.xml");
-        while (we.Read())
-        if(we.NodeType.Equals(XmlNodeType.Text))
-            Label1.Text = Label1.Text + "<br>" + " " + we.Value;
-        we.Close();
+        .cs
+            using System.Xml;
+            XMLWrite()
+                XmlWriterSettings s = new XmlWriterSettings();
+                s.Indent = true;
+                XmlWriter xm = XmlWriter.Create(@"C:\Users\bhavesh\source\repos\Xml-R-W\XMLFile1.xml", s);
+                xm.WriteStartDocument();
+                xm.WriteStartElement("College");
+                xm.WriteString("1");
+                xm.WriteEndElement();
+                xm.WriteEndDocument();
+                xm.Close();
+            XMLRead()
+                XmlReader we = XmlReader.Create(@"C:\Users\bhavesh\source\repos\Xml-R-W\XMLFile1.xml");
+                while (we.Read())
+                if(we.NodeType.Equals(XmlNodeType.Text))
+                    Label1.Text = Label1.Text + "<br>" + " " + we.Value;
+                we.Close();
     
     C.1 AJAX Control
-    WebForm ->
-        add ScriptManager
-        add UpdatePanel
-            Add Button and Label Inside
-        add UpdateProgress
-    aspx.cs 
-        pageload
-            System.Threading.Thread.Sleep(3000);
-        button
-            Label1.Text = DateTime.Now.ToLongTimeString();
+        WebForm ->
+            add ScriptManager
+            add UpdatePanel
+                Add Button and Label Inside
+            add UpdateProgress
+        aspx.cs 
+            pageload
+                System.Threading.Thread.Sleep(3000);
+            button
+                Label1.Text = DateTime.Now.ToLongTimeString();
     
     C.2 AJAX HtmlEditorExtender Text
-    webform ->
-        add TextBox, ScriptManager, Button, Label
-    Go to Soln > Right Click > Manage NuGet Packages > Browse > AJAXControlToolKit
-    Right Click on TextBox > Add Extender > HtmlEditorExtender
-    aspx file add EnableSanitization="false" under  <ajaxToolkit:HtmlEditorExtender
-    Button .cs function
-        Label.Text = TextBox.Text
+        webform ->
+            add TextBox, ScriptManager, Button, Label
+        Go to Soln > Right Click > Manage NuGet Packages > Browse > AJAXControlToolKit
+        Right Click on TextBox > Add Extender > HtmlEditorExtender
+        aspx file add EnableSanitization="false" under  <ajaxToolkit:HtmlEditorExtender
+        Button .cs function
+            Label.Text = TextBox.Text
 
 11. Use DLL Library
     create Project ASP.NET WebForm
